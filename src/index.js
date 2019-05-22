@@ -4,8 +4,18 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
+import Login from './components/Login';
+
 ReactDOM.render(
-    <App />, 
+    <BrowserRouter>
+        <Switch>
+            <Route exact path="/" component={Login}/>
+            <Route path="/login" component={Login}/>
+            <Route path="/app" component={App}/>
+        </Switch>
+    </BrowserRouter>, 
     document.getElementById('root')
 );
 
