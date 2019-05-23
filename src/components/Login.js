@@ -50,19 +50,18 @@ const styles = theme => ({
 
 class Login extends Component {
 
-    constructor(props){
-        super(props);
+    constructor() {
+        super();
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(event){
+    handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         });
-        console.log(this.state);
     }
 
-    render(){
+    render() {
         const { classes } = this.props;
 
         return (
@@ -78,7 +77,7 @@ class Login extends Component {
                     <form className={classes.form}>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="username">Username</InputLabel>
-                            <Input id="username" name="username" autoComplete="username" autoFocus onChange={this.handleChange}/>
+                            <Input id="username" name="username" autoComplete="username" autoFocus onChange={this.handleChange} />
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
