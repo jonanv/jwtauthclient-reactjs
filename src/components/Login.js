@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -46,45 +46,62 @@ const styles = theme => ({
     },
 });
 
-function Login(props) {
-    const { classes } = props;
 
-    return (
-        <main className={classes.main}>
-            <CssBaseline />
-            <Paper className={classes.paper}>
-                <div>
-                    <img src={logo} alt="logo" className={classes.img} />
-                </div>
-                <Typography component="h1" variant="h5">
-                    Login
-                </Typography>
-                <form className={classes.form}>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="username">Username</InputLabel>
-                        <Input id="username" name="username" autoComplete="username" autoFocus />
-                    </FormControl>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password">Password</InputLabel>
-                        <Input name="password" type="password" id="password" autoComplete="current-password" />
-                    </FormControl>
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="default" />}
-                        label="Remember me"
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Sign in
-                    </Button>
-                </form>
-            </Paper>
-        </main>
-    );
+
+class Login extends Component {
+
+    constructor(props){
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event){
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+        console.log(this.state);
+    }
+
+    render(){
+        const { classes } = this.props;
+
+        return (
+            <main className={classes.main}>
+                <CssBaseline />
+                <Paper className={classes.paper}>
+                    <div>
+                        <img src={logo} alt="logo" className={classes.img} />
+                    </div>
+                    <Typography component="h1" variant="h5">
+                        Login
+                    </Typography>
+                    <form className={classes.form}>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="username">Username</InputLabel>
+                            <Input id="username" name="username" autoComplete="username" autoFocus onChange={this.handleChange}/>
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="password">Password</InputLabel>
+                            <Input name="password" type="password" id="password" autoComplete="current-password" onChange={this.handleChange} />
+                        </FormControl>
+                        <FormControlLabel
+                            control={<Checkbox value="remember" color="default" />}
+                            label="Remember me"
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Sign in
+                        </Button>
+                    </form>
+                </Paper>
+            </main>
+        );
+    }
 }
 
 Login.propTypes = {
