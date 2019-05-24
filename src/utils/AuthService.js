@@ -25,17 +25,17 @@ export default class AuthService {
 
     fetch(url, options) {
         // Realiza llamadas api enviando las cabeceras de autentificación requeridas
-        const header = {
+        const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         }
         // Parametrización de la cabecera de autorización
         // Autorización: Bearer xxxxxxxxx.xxxxxxxx.xxxxxxxx
         if (this.loggedIn()) {
-            headers['Authorization'] = `Bearer ${this.getToken()}`;
+            headers['Authorization'] = 'Bearer ' + this.getToken();
         }
         return fetch(url, {
-            header,
+            headers,
             ...options
         })
             .then(this._checkStatus)

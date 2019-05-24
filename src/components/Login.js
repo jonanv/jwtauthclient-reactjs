@@ -12,6 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import logo from '../logo.svg';
 
+import AuthService from '../utils/AuthService';
+
 const styles = theme => ({
     main: {
         width: 'auto',
@@ -53,6 +55,7 @@ class Login extends Component {
     constructor() {
         super();
         this.handleChange = this.handleChange.bind(this);
+        this.AuthService = new AuthService();
     }
 
     handleChange(event) {
