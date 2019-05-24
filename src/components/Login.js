@@ -59,12 +59,9 @@ class Login extends Component {
         this.Auth = new AuthService();
     }
 
-    componentDidMount(){
-        if(this.Auth.loggedIn()){
+    componentDidMount() {
+        if (this.Auth.loggedIn()) {
             this.props.history.replace('/app');
-        }
-        else{
-            
         }
     }
 
