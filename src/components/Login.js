@@ -59,6 +59,15 @@ class Login extends Component {
         this.Auth = new AuthService();
     }
 
+    componentDidMount(){
+        if(this.Auth.loggedIn()){
+            this.props.history.replace('/app');
+        }
+        else{
+            
+        }
+    }
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
