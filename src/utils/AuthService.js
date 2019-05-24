@@ -1,7 +1,12 @@
+import decode from 'jwt-decode';
+
 export default class AuthService {
     //Inicializar variables importantes
     constructor(domain) {
         this.domain = domain || `http://localhost:8080`; // API server domain
+        this.fetch = this.fetch.bind(this);
+        this.login = this.login.bind(this);
+        this.getProfile = this.getProfile.bind(this);
     }
 
     login(username, password) {
@@ -37,20 +42,56 @@ export default class AuthService {
             .then(response => response.json())
     }
 
-    getToken(){
+    getToken() {
+        // Recupera el token del usuario del localStorage
         return localStorage.getItem('id_token');
     }
 
-    setToken(idToken){
+    setToken(idToken) {
+        // Guarda el token del usuario en el localStorage
         localStorage.setItem('id_token', idToken);
     }
 
-    loggedIn(){
-        const token = this.getToken();
+    loggedIn() {
+        // Comprueba si hay un token guardado y sigue siendo valido
+        const token = this.getToken(); // Obtiene el token desde el localStorage
         return !!token && !this.isTokenExpired(token);
     }
 
-    isTokenExpired(idToken){
-        
+    isTokenExpired(token) {
+        try {
+            const decode = decode(token);
+            if (decode.exp < Date.now() / 1000) { // Comprueba si el token esta caducado
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (err) {
+            return false;
+        }
+    }
+
+    logout() {
+        // Limpia los datos de perfil y token del localStorage
+        localStorage.removeItem('id_token');
+    }
+
+    getProfile() {
+        // Uso del paquete jwt-decode npm para decodificar el token
+        return decode(this.getToken());
+    }
+
+    _checkStatus(response) {
+        // Plantea un error en caso de que el estado de la respuesta no sea un éxito
+        if (response.status >= 200 && response < 300) { // El estado de éxito se encuentra entre 200 y 300
+            return response;
+        }
+        else {
+            let error = new Error(response.statusText);
+            error.response = response;
+            throw error;
+        }
     }
 }
