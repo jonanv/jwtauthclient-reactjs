@@ -32,7 +32,7 @@ export default function withAuth(AuthComponent) {
 
         render(){
             if(this.state.user){
-                render(
+                return(
                     <AuthComponent history={this.props.history} user={this.state.user}/>
                 );
             }
@@ -42,5 +42,3 @@ export default function withAuth(AuthComponent) {
         }
     }
 }
-
-export default withAuth;

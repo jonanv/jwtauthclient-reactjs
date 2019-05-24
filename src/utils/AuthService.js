@@ -11,16 +11,16 @@ export default class AuthService {
 
     login(username, password) {
         // Obtiene un token del servidor api usando el fetch api
-        return (`${this.domain}/`, {
+        return this.fetch(`${this.domain}/login`, {
             method: 'POST',
             body: JSON.stringify({
                 username,
                 password
-            }).then(res => {
-                this.setToken(res.token); // Configuración del token en el localStorage
-                return Promise.resolve(res);
             })
-        });
+        }).then(res => {
+            this.setToken(res.token); // Configuración del token en el localStorage
+            return Promise.resolve(res);
+        })
     }
 
     fetch(url, options) {
@@ -60,8 +60,8 @@ export default class AuthService {
 
     isTokenExpired(token) {
         try {
-            const decode = decode(token);
-            if (decode.exp < Date.now() / 1000) { // Comprueba si el token esta caducado
+            const decoded = decode(token);
+            if (decoded.exp < Date.now() / 1000) { // Comprueba si el token esta caducado
                 return true;
             }
             else {
@@ -85,7 +85,7 @@ export default class AuthService {
 
     _checkStatus(response) {
         // Plantea un error en caso de que el estado de la respuesta no sea un éxito
-        if (response.status >= 200 && response < 300) { // El estado de éxito se encuentra entre 200 y 300
+        if (response.status >= 200 && response.status < 300) { // El estado de éxito se encuentra entre 200 y 300
             return response;
         }
         else {
