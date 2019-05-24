@@ -55,13 +55,26 @@ class Login extends Component {
     constructor() {
         super();
         this.handleChange = this.handleChange.bind(this);
-        this.AuthService = new AuthService();
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.Auth = new AuthService();
     }
 
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         });
+    }
+
+    handleFormSubmit(event) {
+        event.preventDefault();
+
+        this.Auth.login(this.state.username, this.state.password)
+            .then(res => {
+                this.props.history.replace('/app');
+            })
+            .catch(err => {
+                alert(err);
+            })
     }
 
     render() {
@@ -77,7 +90,7 @@ class Login extends Component {
                     <Typography component="h1" variant="h5">
                         Login
                     </Typography>
-                    <form className={classes.form}>
+                    <form className={classes.form} onSubmit={this.handleFormSubmit}>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="username">Username</InputLabel>
                             <Input id="username" name="username" autoComplete="username" autoFocus onChange={this.handleChange} />
